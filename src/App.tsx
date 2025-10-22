@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { getPlanets } from "./actions/get-planets.action";
 import Planets from "./pages/Planets";
+import { ErrorBoundary } from "./shared/ErrorBoundary";
 
 function App() {
   return (
@@ -9,9 +10,11 @@ function App() {
         Planetas del Sistema Solar
       </h1>
 
-      <Suspense fallback={<div>Loading Planets...</div>}>
-        <Planets getPlanets={getPlanets()} />
-      </Suspense>
+      <ErrorBoundary fallback={<div>General error!</div>}>
+        <Suspense fallback={<div>Loading Planets...</div>}>
+          <Planets getPlanets={getPlanets()} />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }
