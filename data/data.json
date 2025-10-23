@@ -59,6 +59,12 @@
       "name": "doc",
       "type": "tip",
       "distanceFromSun": "xd"
+    },
+    {
+      "id": "1a71",
+      "name": "Neptuno",
+      "type": "docman",
+      "distanceFromSun": "180 km"
     }
   ]
 }
