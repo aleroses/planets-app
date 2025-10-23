@@ -41,6 +41,24 @@
       "name": "Saturno",
       "type": "planeta",
       "distanceFromSun": "800 km"
+    },
+    {
+      "id": "306d",
+      "name": "col",
+      "type": "xd",
+      "distanceFromSun": "309 km"
+    },
+    {
+      "id": "c71f",
+      "name": "Urano",
+      "type": "Planeta",
+      "distanceFromSun": "85000 Millones de km"
+    },
+    {
+      "id": "4615",
+      "name": "doc",
+      "type": "tip",
+      "distanceFromSun": "xd"
     }
   ]
 }
