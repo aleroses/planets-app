@@ -1,4 +1,4 @@
-import { useOptimistic } from "react";
+import { useOptimistic, useTransition } from "react";
 import { updatePlanetAction } from "../../actions/update-planet.action";
 import { Planet } from "../../interfaces/planet.interface";
 
@@ -7,6 +7,8 @@ interface Props {
 }
 
 export const PlanetList = ({ planets }: Props) => {
+  const [isPending, startTransition] = useTransition();
+
   const [optimisticPlanets, setOptimisticNewPlanets] =
     useOptimistic(planets, (current, newPlanet: Planet) => {
       const updatedPlanets = current.map((planet) =>
@@ -17,10 +19,23 @@ export const PlanetList = ({ planets }: Props) => {
     });
 
   const handleUpdatePlanet = async (planet: Planet) => {
-    planet.name = planet.name.toUpperCase();
+    startTransition(async () => {
+      // planet.name = planet.name.toUpperCase();
+      const data = {
+        ...planet,
+        name: planet.name.toUpperCase(),
+      };
 
-    setOptimisticNewPlanets(planet);
-    const updatedPlanet = await updatePlanetAction(planet);
+      try {
+        setOptimisticNewPlanets(data);
+        const updatedPlanet = await updatePlanetAction(data);
+        setOptimisticNewPlanets(updatedPlanet);
+      } catch (error) {
+        console.log(error);
+
+        setOptimisticNewPlanets(planet);
+      }
+    });
   };
 
   return (
@@ -40,8 +55,9 @@ export const PlanetList = ({ planets }: Props) => {
 
           <br />
           <button
-            className="bg-blue-500 text-white p-2 rounded w-full"
+            className="bg-blue-500 disabled:bg-gray-500 text-white p-2 rounded w-full"
             onClick={() => handleUpdatePlanet(planet)}
+            disabled={isPending}
           >
             Update
           </button>
